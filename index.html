@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>PayPal RestApi</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="css/style.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<style type="text/css">
+            body {min-width: 360px;} 
+            .information {display: none;}  
+        </style>
+    </head>
+	<body>
+		<header>
+	        <div class="container">
+	            <div class="navbar">
+	                <div class="navbar-header">
+	                    <a class="navbar-toggle"></a>
+	                    <a class="navbar-brand" href="index.php">PayPal RestApi</a>
+	                </div>
+	                <div class="navbar-content">
+	                    <ul class="navbar-nav right">
+	                        <li class="navbar-nav-item active  ">
+	                            <a class="navbar-nav-link" href="index.php">付款</a>
+	                        </li>
+	                        <li class="navbar-nav-item ">
+	                            <a class="navbar-nav-link" href="refund.php">退款</a>
+	                        </li>
+	                        <li class="navbar-nav-item ">
+	                            <a class="navbar-nav-link" href="record.php">付款記錄查詢</a>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </header>
+	    <div class="container">
+	        <ul class="step">
+	            <li class="step-item active">
+	                <h6 class="step-title">1. 訂單確認與付款</h6>
+	                <p class="step-text">Payment Reserve</p>
+	            </li>
+	            <li class="step-item ">
+	                <h6 class="step-title">2. 付款結果</h6>
+	                <p class="step-text">Payment Confirm</p>
+	            </li>
+	        </ul>
+	    </div>
+	    <div class="container">
+	        <form class="form-horizontal" id="reserveForm" method="POST" action="checkOut.php">
+	        	<div class="panel">
+	                <div class="panel-header">
+	                    <h3 class="panel-title">交易類型</h3>
+	                </div>
+	                <div class="panel-box">
+	                    <div class="ctrl-grp columns-12">
+                            <label class="ctrl-label col-3">交易類型</label>
+                            <div class="ctrls col-9">
+                                <div class="kui-opts">
+                                	<label class="kui-opt">
+                                        <input type="radio" name="ChoosePayment" value="normal" >
+                                        <span class="kui-opt-input">一般</span>
+                                    </label>
+                                    <label class="kui-opt">
+                                        <input type="radio" name="ChoosePayment" value="vnp_soap" >
+                                        <span class="kui-opt-input">VPN / SOAP</span>
+                                    </label>
+                                    <label class="kui-opt">
+                                        <input type="radio" name="ChoosePayment" value="restapi" >
+                                        <span class="kui-opt-input">REST API</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+	                </div>
+	            </div>  
+	            <div class="panel information" id="normal">
+	                <div class="panel-header">
+	                    <h3 class="panel-title">Normal 資料</h3>
+	                </div>
+	                <div class="panel-box">
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">User</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="user" value="jason-sale@gmail.com" required>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div> 
+	            <div class="panel information" id="vnp_soap">
+	                <div class="panel-header">
+	                    <h3 class="panel-title">VPN / SOAP資料</h3>
+	                </div>
+	                <div class="panel-box">
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">userName</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="username" value="Jason-sale_api1.gmail.com" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">passWord</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="password" value="6MHCAZE49JV3EQLZ" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">PayPalCode</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="paypalcode" value="AFcWxV21C7fd0v3bYYYRCpSSRl31A5mtWOoG.2scKcnScHMikCBtehNF" required>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div> 
+	            <div class="panel information" id="restapi">
+	                <div class="panel-header">
+	                    <h3 class="panel-title">REST API 資料</h3>
+	                </div>
+	                <div class="panel-box">
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">clientID</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="clientID" value="ASLXLyCUQwY6eBwaiWAksUuqyiwclC8wz9z7_ShXUTqpsTus4VQrZ6f4Mnge0oM16LYMBUPsWSg4uvfh" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">secretID</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="secretID" value="EMuEtgpYazXUhDuPyYAjWxCxaXrljr8ZZL8QxIuLdRNnsJDKYpxUGO4wDiTie6Pkp9onbabrcQ1K7T-_" required>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>                
+	            <div class="panel">
+	                <div class="panel-header">
+	                    <h3 class="panel-title">訂單資料</h3>
+	                </div>         
+	                <div class="panel-box">
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">金額</label>
+	                        <div class="ctrls col-9">
+	                            <div class="input-grp">
+	                                <span class="adorn">TWD</span>
+	                                <input type="text" class="ctrl-input" name="Price" value="180" required>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">運費</label>
+	                        <div class="ctrls col-9">
+	                            <div class="input-grp">
+	                                <span class="adorn">TWD</span>
+	                                <input type="text" class="ctrl-input" name="Shipping" value="20" required>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">ResultUrl</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="ResultUrl" value="PayPalResult.php" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">NotifyUrl</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="NotifyUrl" value="PayPalNotify.php" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <label class="ctrl-label col-3">CancelUrl</label>
+	                        <div class="ctrls col-9">
+	                            <input type="text" class="ctrl-input" name="CancelUrl" value="PayPalCancel.php" required>
+	                        </div>
+	                    </div>
+	                    <div class="ctrl-grp columns-12">
+	                        <div class="ctrls col-9 col-offset-3"><input type="submit" value="確認付款"></div>
+	                    </div>
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	</body>
+</html>
+
+<script>
+	$("input[name=ChoosePayment]").click(function(e){
+		var payment = $(this).val();
+		// console.log("#" + payment);
+		$(".information").each(function(e){
+			$(this).hide();
+		})
+		$("#" + payment).show();
+	});
+</script>
